@@ -1,12 +1,14 @@
-import React from 'react'
-import SignOutButton from './Components/SignOutButton'
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import TopBar from './Components/TopBar'
 
 const Dashboard = () => {
   return (
-    <>
-        <div>Welcome to GenGo</div>
-        <SignOutButton />
-    </>
+    <div>
+      <TopBar />
+      <p>Dasboard</p>
+    </div>
   )
 }
 

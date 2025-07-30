@@ -1,12 +1,17 @@
 import { signInWithPopup } from 'firebase/auth';
 import React from 'react'
-import { auth, googleProvider } from '../../../firebase';
+import { auth, googleProvider } from '../../firebase/config';
+import { useRouter } from 'next/navigation'
 
 const SignInButton = () => {
+    const router = useRouter()
+
     const handleGoogleLogin = async() => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
-            console.log("User:", result.user); // Contains name, email, photo, etc.
+            console.log("User:", result.user);
+            router.push("/")
+
         } catch (err) {
             console.error(err);
         }

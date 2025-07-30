@@ -1,5 +1,5 @@
-import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../../../firebase";
+"use client"
+
 import SignInButton from "../Components/SignInButton";
 
 export default function LoginPage() {
