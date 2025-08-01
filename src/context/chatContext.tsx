@@ -1,29 +1,56 @@
 'use client'
 
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext, Dispatch, SetStateAction, use, useState } from "react";
 import chatGemini from "@/config/gemini"
 
 type GeminiContextType = {
   input: string;
   setInput: Dispatch<SetStateAction<string>>;
   onSent: () => Promise<void>;
+  resultData: string;
+  setResultData: Dispatch<SetStateAction<string>>;
+  chatHistory: History[];
+  setChatHistory: Dispatch<SetStateAction<History[]>>;
 };
+
+type History = {
+    role: string,
+    parts: {text: string}[];
+}
 
 export const Context = createContext<GeminiContextType | null>(null)
 
 const ContextProvider = (props) => {
     const [input, setInput] = useState("");
+    const [resultData, setResultData] = useState("")
+    const [chatHistory, setChatHistory] = useState<History[]>([])
 
+    const userMessage = {
+        role: 'user',
+        parts: [{text: input}]
+    }
 
     const onSent = async() => {
-        console.log("Input: ", input)
-        await chatGemini(input)
+        const newHistory = [...chatHistory, userMessage]
+        setChatHistory(newHistory)
+        const result = await chatGemini(newHistory)
+        setResultData(result ?? "Error")
+        const modelResponse = {
+            role: 'model',
+            parts: [{text: result ?? "Error"}]
+        }
+        setChatHistory([...newHistory, modelResponse])
+        setInput("")
     }
 
     const contextValue = {
         onSent,
         input,
         setInput,
+        resultData,
+        setResultData,
+        chatHistory,
+        setChatHistory
     }
 
     return (
