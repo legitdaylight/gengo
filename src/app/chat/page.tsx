@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import TopBar from '../Components/TopBar'
 import InputBox from '../Components/InputBox'
 import { Context } from '@/context/chatContext'
+import ReactMarkdown from 'react-markdown'
 
 function page() {
   const context = useContext(Context);
@@ -26,7 +27,7 @@ function page() {
               </div>
             ) : 
               <div key={index} className='flex items-start gap-[20px]'>
-                <p className='text-[17px] font-[300] leading-1.5'>{msg.parts[0].text}</p>
+                <ReactMarkdown>{msg.parts[0].text}</ReactMarkdown>
               </div>
           ))}
         </div>

@@ -35,6 +35,17 @@ const ContextProvider = (props) => {
         setChatHistory(newHistory)
         const result = await chatGemini(newHistory)
         setResultData(result ?? "Error")
+        //let boldArray = result?.split("**")!
+        //let newResult = ""
+        //for(let i = 0; i < boldArray?.length!; i++){
+        //    if(i%2 == 0){
+        //        newResult += boldArray[i]
+        //    }
+        //    else{
+        //        newResult += "<b>"+boldArray[i]+"</b>"
+        //    }
+        //}
+        //const formatResult = newResult.split("*").join("</br>")
         const modelResponse = {
             role: 'model',
             parts: [{text: result ?? "Error"}]
