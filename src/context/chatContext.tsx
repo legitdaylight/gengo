@@ -11,6 +11,8 @@ type GeminiContextType = {
   setResultData: Dispatch<SetStateAction<string>>;
   chatHistory: History[];
   setChatHistory: Dispatch<SetStateAction<History[]>>;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 type History = {
@@ -24,6 +26,7 @@ const ContextProvider = (props) => {
     const [input, setInput] = useState("");
     const [resultData, setResultData] = useState("")
     const [chatHistory, setChatHistory] = useState<History[]>([])
+    const [loading, setLoading] = useState(false)
 
     const userMessage = {
         role: 'user',
@@ -31,27 +34,18 @@ const ContextProvider = (props) => {
     }
 
     const onSent = async() => {
+        setLoading(true)
         const newHistory = [...chatHistory, userMessage]
         setChatHistory(newHistory)
         const result = await chatGemini(newHistory)
         setResultData(result ?? "Error")
-        //let boldArray = result?.split("**")!
-        //let newResult = ""
-        //for(let i = 0; i < boldArray?.length!; i++){
-        //    if(i%2 == 0){
-        //        newResult += boldArray[i]
-        //    }
-        //    else{
-        //        newResult += "<b>"+boldArray[i]+"</b>"
-        //    }
-        //}
-        //const formatResult = newResult.split("*").join("</br>")
         const modelResponse = {
             role: 'model',
             parts: [{text: result ?? "Error"}]
         }
         setChatHistory([...newHistory, modelResponse])
         setInput("")
+        setLoading(false)
     }
 
     const contextValue = {
@@ -61,7 +55,9 @@ const ContextProvider = (props) => {
         resultData,
         setResultData,
         chatHistory,
-        setChatHistory
+        setChatHistory,
+        loading,
+        setLoading
     }
 
     return (
