@@ -1,24 +1,21 @@
 'use client'
 
 import { auth } from '@/firebase/config'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { onAuthStateChanged, User } from 'firebase/auth'
+import { userContext } from '@/context/userContext'
 
 const TopBar = () => {
-  const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
 
-  useEffect(() => {
-  
-  const stateChange = onAuthStateChanged(auth, (user)=>{
-      if(user){
-        setUser(user)
-      }
-    })
+  const context = useContext(userContext);
 
-    return () => stateChange()
-  })
+  if (!context) {
+    throw new Error('Page must be used within a ContextProvider');
+  }
+
+  const {user} = context
 
   return (
       <div className='text-xl select-none flex items-center justify-between p-[10px] bg-gray-200 shadow-xl'>
