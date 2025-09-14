@@ -20,10 +20,10 @@ const TopBar = () => {
   return (
       <div className='text-xl select-none flex items-center justify-between p-[10px] bg-gray-200 shadow-xl'>
         <p className="cursor-pointer ml-20" onClick={() => router.push('/')}>Gengo</p>
-        <div className='bg-gray-300 pl-3 pr-3 pt-1 pb-1 rounded-full cursor-pointer' onClick={() => router.push("lessons")}>
+        <div className='bg-gray-300 pl-3 pr-3 pt-1 pb-1 rounded-full cursor-pointer' onClick={() => router.push("/lessons")}>
             <p className='font-bold'>Lessons</p>
         </div>
-        <div className='bg-gray-300 pl-3 pr-3 pt-1 pb-1 rounded-full cursor-pointer' onClick={() => router.push("chat")}>
+        <div className='bg-gray-300 pl-3 pr-3 pt-1 pb-1 rounded-full cursor-pointer' onClick={() => router.push("/chat")}>
             <p className='font-bold'>AI Tutor</p>
         </div>
         <img src={user?.photoURL || undefined} className='h-8 w-8 cursor-pointer rounded-full mr-20' onClick={() => router.push("/profile")}/>
